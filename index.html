@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Aegis — Rasgo da Fenda (V5)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<section id="loginPage" class="page active">
+  <div class="login-box">
+    <h1>RASGO DA FENDA</h1>
+    <p>Aegis — O Despertar</p>
+
+    <input placeholder="Usuário">
+    <input type="password" placeholder="Senha">
+
+    <button id="loginBtn">Entrar</button>
+  </div>
+</section>
+
+<!-- APP -->
+<section id="appPage" class="page">
+  <header>
+    <h2>Rasgo da Fenda</h2>
+    <nav>
+      <button data-tab="criar">Criar</button>
+      <button data-tab="personagens">Personagens</button>
+      <button data-tab="npcs">NPCs</button>
+      <button data-tab="sistema">Sistema</button>
+      <button data-tab="dados">Dados</button>
+      <button id="logoutBtn">Sair</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- CRIAR -->
+    <section id="criar" class="tab active paper">
+      <h3>Criar Ficha</h3>
+
+      <select id="tipo">
+        <option value="personagem">Personagem</option>
+        <option value="npc">NPC</option>
+      </select>
+
+      <input id="nome" placeholder="Nome">
+      <input id="jogador" placeholder="Jogador">
+
+      <textarea id="aparencia" placeholder="Aparência"></textarea>
+      <textarea id="historia" placeholder="História"></textarea>
+
+      <h4>Atributos</h4>
+      <div class="grid">
+        <input id="forca" placeholder="Força">
+        <input id="agilidade" placeholder="Agilidade">
+        <input id="intelecto" placeholder="Intelecto">
+        <input id="presenca" placeholder="Presença">
+      </div>
+
+      <h4>Status</h4>
+      <div class="grid">
+        <input id="vida" placeholder="Vida">
+        <input id="sanidade" placeholder="Sanidade">
+        <input id="medo" placeholder="Medo">
+      </div>
+
+      <textarea id="notas" placeholder="Anotações"></textarea>
+
+      <button id="salvar">Salvar Ficha</button>
+    </section>
+
+    <!-- PERSONAGENS -->
+    <section id="personagens" class="tab paper">
+      <h3>Personagens</h3>
+      <div id="listaPersonagens"></div>
+    </section>
+
+    <!-- NPCS -->
+    <section id="npcs" class="tab paper">
+      <h3>NPCs</h3>
+      <div id="listaNPCs"></div>
+    </section>
+
+    <!-- SISTEMA -->
+    <section id="sistema" class="tab paper">
+      <h3>Sistema</h3>
+      <p><strong>Sanidade:</strong> representa o contato com o paranormal.</p>
+      <p><strong>Medo:</strong> cresce quando o personagem encara o Rasgo.</p>
+      <p><strong>Quando a sanidade chega a 0:</strong> consequências narrativas graves.</p>
+    </section>
+
+    <!-- DADOS -->
+    <section id="dados" class="tab paper">
+      <h3>Dados</h3>
+      <div class="dice">
+        <button onclick="roll(4)">D4</button>
+        <button onclick="roll(6)">D6</button>
+        <button onclick="roll(8)">D8</button>
+        <button onclick="roll(10)">D10</button>
+        <button onclick="roll(12)">D12</button>
+        <button onclick="roll(20)">D20</button>
+      </div>
+      <p id="diceResult"></p>
+    </section>
+
+  </main>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
