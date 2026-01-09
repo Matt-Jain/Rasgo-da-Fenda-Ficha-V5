@@ -1,76 +1,121 @@
-const loginPage = document.getElementById("loginPage");
-const appPage = document.getElementById("appPage");
-
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-
-let fichas = JSON.parse(localStorage.getItem("fichas")) || [];
+let characters = [];
+let currentUser = "";
 
 /* LOGIN FAKE */
-loginBtn.onclick = () => {
-  loginPage.classList.remove("active");
-  appPage.classList.add("active");
-  render();
-};
-
-/* LOGOUT */
-logoutBtn.onclick = () => {
-  appPage.classList.remove("active");
-  loginPage.classList.add("active");
-};
+function fakeLogin() {
+  const name = document.getElementById("loginName").value;
+  if (!name) return alert("Digite um nome.");
+  currentUser = name;
+  document.getElementById("login-screen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  showTab("create");
+}
 
 /* TABS */
-document.querySelectorAll("nav button[data-tab]").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.getElementById(btn.dataset.tab).classList.add("active");
-  };
-});
+function showTab(id) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
 
-/* SALVAR */
-document.getElementById("salvar").onclick = () => {
-  const ficha = {
-    tipo: tipo.value,
-    nome: nome.value,
-    jogador: jogador.value,
-    aparencia: aparencia.value,
-    historia: historia.value,
-    atributos: {
-      forca: forca.value,
-      agilidade: agilidade.value,
-      intelecto: intelecto.value,
-      presenca: presenca.value
-    },
-    status: {
-      vida: vida.value,
-      sanidade: sanidade.value,
-      medo: medo.value
-    },
-    notas: notas.value
+  if (id === "dice") loadDice();
+}
+
+/* CRIAR */
+function createCharacter() {
+  const name = document.getElementById("charName").value;
+  const type = document.getElementById("charType").value;
+  const history = document.getElementById("charHistory").value;
+
+  if (!name) return alert("Nome obrigatório.");
+
+  const skills = {
+    Luta: 20, Pontaria: 20, Investigação: 20, Ocultismo: 20,
+    Percepção: 20, Atletismo: 20, Furtividade: 20,
+    Enganação: 20, Intimidação: 20, Tecnologia: 20
   };
 
-  fichas.push(ficha);
-  localStorage.setItem("fichas", JSON.stringify(fichas));
-  alert("Ficha salva!");
-  render();
-};
+  characters.push({
+    name, type, history,
+    life: 10,
+    sanity: 10,
+    control: 10,
+    points: 200,
+    skills
+  });
 
-/* RENDER */
-function render() {
-  listaPersonagens.innerHTML = "";
-  listaNPCs.innerHTML = "";
+  document.getElementById("charName").value = "";
+  document.getElementById("charHistory").value = "";
 
-  fichas.forEach(f => {
+  renderLists();
+  alert("Criado!");
+}
+
+/* LISTAS */
+function renderLists() {
+  const p = document.getElementById("playerList");
+  const n = document.getElementById("npcList");
+  p.innerHTML = "";
+  n.innerHTML = "";
+
+  characters.forEach(c => {
     const div = document.createElement("div");
     div.className = "card";
-    div.innerHTML = `<strong>${f.nome}</strong><br>${f.jogador || ""}`;
-
-    if (f.tipo === "npc") listaNPCs.appendChild(div);
-    else listaPersonagens.appendChild(div);
+    div.innerHTML = `
+      <strong>${c.name}</strong>
+      <div class="status">
+        <div class="life">Vida: ${c.life}</div>
+        <div class="sanity">Sanidade: ${c.sanity}</div>
+        <div class="control">Incontrole: ${c.control}</div>
+      </div>
+    `;
+    c.type === "npc" ? n.appendChild(div) : p.appendChild(div);
   });
 }
 
 /* DADOS */
-function roll(lados) {
-  diceResult.innerText = `Resultado D${lados}: ${Math.floor(Math.random() * lados) + 1}`;
+function loadDice() {
+  const sel = document.getElementById("diceCharacter");
+  const skillsDiv = document.getElementById("skillsDice");
+  sel.innerHTML = "";
+  skillsDiv.innerHTML = "";
+
+  characters.filter(c => c.type === "player").forEach((c, i) => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+
+  renderSkillsDice();
+}
+
+function renderSkillsDice() {
+  const skillsDiv = document.getElementById("skillsDice");
+  skillsDiv.innerHTML = "";
+
+  const c = characters[document.getElementById("diceCharacter").value];
+  if (!c) return;
+
+  Object.entries(c.skills).forEach(([skill, val]) => {
+    const div = document.createElement("div");
+    div.className = "skill";
+    div.innerHTML = `${skill} <strong>${val}</strong>`;
+    div.onclick = () => rollDice(skill, val);
+    skillsDiv.appendChild(div);
+  });
+}
+
+document.getElementById("diceCharacter").onchange = renderSkillsDice;
+
+/* ROLAGEM */
+function rollDice(skill, value) {
+  const roll = Math.floor(Math.random() * 100) + 1;
+  const result = roll <= value ? "SUCESSO" : "FALHA";
+
+  const panel = document.getElementById("diceResult");
+  panel.classList.remove("hidden");
+  panel.innerHTML = `
+    <h3>${skill}</h3>
+    <p>Dado: ${roll}</p>
+    <strong>${result}</strong>
+  `;
 }
