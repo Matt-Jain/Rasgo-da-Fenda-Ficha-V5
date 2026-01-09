@@ -1,90 +1,97 @@
 * {
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 body {
   margin: 0;
-  background: #0f1117;
-  color: #eee;
+  background: radial-gradient(circle at top, #1c1f26, #0f1115);
+  color: #111;
 }
 
-.page {
-  display: none;
-  min-height: 100vh;
-}
+.hidden { display: none; }
 
-.page.active {
+.screen {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.login-box {
-  background: #1c1f2a;
+.login-card {
+  background: #f2f2e9;
   padding: 30px;
   border-radius: 14px;
-  width: 320px;
   text-align: center;
+  width: 300px;
 }
 
-.login-box input {
+.login-card input {
   width: 100%;
-  margin: 8px 0;
   padding: 10px;
+  margin: 10px 0;
 }
 
 header {
-  width: 100%;
-  background: #151821;
-  padding: 10px;
+  background: #14161c;
+  color: white;
+  padding: 12px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 nav button {
-  margin-left: 6px;
-}
-
-main {
-  width: 100%;
-  padding: 20px;
-}
-
-.tab {
-  display: none;
-}
-
-.tab.active {
-  display: block;
+  margin-left: 5px;
 }
 
 .paper {
-  background: #f1f1e8;
-  color: #000;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-input, textarea, select {
-  width: 100%;
-  margin: 6px 0;
-  padding: 8px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  max-width: 900px;
+  margin: 20px auto;
+  background: #f4f1e8;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
 }
 
 .card {
-  background: #ddd;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  background: #e1dfd2;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-.dice button {
-  margin-right: 6px;
+.status {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.status div {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.life { background: #ffb3b3; }
+.sanity { background: #ffeaa7; }
+.control { background: #a4c8ff; }
+
+.skill {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  border-bottom: 1px dashed #aaa;
+  cursor: pointer;
+}
+
+.dice-panel {
+  margin-top: 20px;
+  padding: 15px;
+  background: #14161c;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
 }
